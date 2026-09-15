@@ -1,0 +1,91 @@
+# Four services. `docker compose up --build` starts them in this order:
+#
+#   postgres        employees, access rules, chat history
+#   elasticsearch   policy chunks and their vectors
+#   ingest          reads the policy files into Elasticsearch, then exits
+#   app             the Streamlit chat, on http://localhost:8501
+#
+# The app waits until postgres and elasticsearch are healthy AND ingest has
+# finished successfully, so nobody chats against an empty index.
+
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: hr
+      POSTGRES_PASSWORD: hr
+      POSTGRES_DB: hr
+    ports:
+      - "5432:5432"            # so you can psql in, and run tests from your machine
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # Every .sql file in db/ runs once, in name order, on a brand-new database.
+      - ./db:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hr -d hr"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.1.0
+    environment:
+      discovery.type: single-node
+      # Local development only: no passwords, no TLS. Never do this on a server.
+      xpack.security.enabled: "false"
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs http://localhost:9200/_cluster/health || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+
+  ingest:
+    build: .
+    image: northwind-hr-assistant:local
+    command: ["python", "-m", "app.ingest"]
+    env_file:
+      - .env                   # lets you test the assistant from this container too
+    environment:
+      DATABASE_URL: postgresql://hr:hr@postgres:5432/hr
+      SEARCH_URL: http://elasticsearch:9200
+    volumes:
+      - ./app:/app/app
+      - ./data:/app/data
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    restart: "no"
+
+  app:
+    build: .
+    image: northwind-hr-assistant:local
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env                   # ANTHROPIC_API_KEY
+    environment:
+      DATABASE_URL: postgresql://hr:hr@postgres:5432/hr
+      SEARCH_URL: http://elasticsearch:9200
+    volumes:
+      # Mounted, so editing code or documents needs no rebuild.
+      # Streamlit reloads the page when a file in app/ changes.
+      - ./app:/app/app
+      - ./data:/app/data
+      - ./tests:/app/tests
+    depends_on:
+      postgres:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+      ingest:
+        condition: service_completed_successfully
+
+volumes:
+  pgdata:
+  esdata:

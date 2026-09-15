@@ -1,0 +1,172 @@
+[
+  {
+    "filename": "benefits_overview_2026.docx",
+    "title": "Benefits Overview 2026",
+    "department": "People Operations",
+    "access_level": "general",
+    "version": "2026.1",
+    "status": "current",
+    "effective_date": "2026-01-01",
+    "file_format": "docx"
+  },
+  {
+    "filename": "code_of_conduct.pdf",
+    "title": "Code of Conduct",
+    "department": "Legal and Compliance",
+    "access_level": "general",
+    "version": "2026.1",
+    "status": "current",
+    "effective_date": "2026-01-01",
+    "file_format": "pdf"
+  },
+  {
+    "filename": "compensation_bands_2026.docx",
+    "title": "Compensation Bands 2026",
+    "department": "People Operations",
+    "access_level": "hr_only",
+    "version": "2026.1",
+    "status": "current",
+    "effective_date": "2026-01-01",
+    "file_format": "docx"
+  },
+  {
+    "filename": "employee_handbook.pdf",
+    "title": "Northwind Systems Employee Handbook",
+    "department": "People Operations",
+    "access_level": "general",
+    "version": "2026.1",
+    "status": "current",
+    "effective_date": "2026-01-01",
+    "file_format": "pdf"
+  },
+  {
+    "filename": "executive_severance_guidelines.pdf",
+    "title": "Executive Severance Guidelines",
+    "department": "People Operations",
+    "access_level": "exec_only",
+    "version": "2026.1",
+    "status": "current",
+    "effective_date": "2026-01-01",
+    "file_format": "pdf"
+  },
+  {
+    "filename": "expense_policy_2024.pdf",
+    "title": "Expense and Reimbursement Policy (2024)",
+    "department": "Finance",
+    "access_level": "general",
+    "version": "2024.1",
+    "status": "superseded",
+    "effective_date": "2024-01-01",
+    "file_format": "pdf"
+  },
+  {
+    "filename": "expense_reimbursement_policy.md",
+    "title": "Expense and Reimbursement Policy",
+    "department": "Finance",
+    "access_level": "general",
+    "version": "2026.1",
+    "status": "current",
+    "effective_date": "2026-01-01",
+    "file_format": "md"
+  },
+  {
+    "filename": "headcount_plan_2026.md",
+    "title": "Headcount Plan 2026",
+    "department": "Finance",
+    "access_level": "exec_only",
+    "version": "2026.1",
+    "status": "current",
+    "effective_date": "2026-01-01",
+    "file_format": "md"
+  },
+  {
+    "filename": "hiring_offer_approval_matrix.md",
+    "title": "Hiring and Offer Approval Matrix",
+    "department": "People Operations",
+    "access_level": "manager_only",
+    "version": "2026.1",
+    "status": "current",
+    "effective_date": "2026-01-01",
+    "file_format": "md"
+  },
+  {
+    "filename": "holiday_calendar_2026.csv",
+    "title": "Company Holiday Calendar 2026",
+    "department": "People Operations",
+    "access_level": "general",
+    "version": "2026.1",
+    "status": "current",
+    "effective_date": "2026-01-01",
+    "file_format": "csv"
+  },
+  {
+    "filename": "it_acceptable_use.txt",
+    "title": "IT Acceptable Use Policy",
+    "department": "Information Technology",
+    "access_level": "general",
+    "version": "2026.1",
+    "status": "current",
+    "effective_date": "2026-01-01",
+    "file_format": "txt"
+  },
+  {
+    "filename": "offboarding_termination_procedure.docx",
+    "title": "Offboarding and Termination Procedure",
+    "department": "People Operations",
+    "access_level": "hr_only",
+    "version": "2026.1",
+    "status": "current",
+    "effective_date": "2026-01-01",
+    "file_format": "docx"
+  },
+  {
+    "filename": "parental_leave_policy.md",
+    "title": "Parental Leave Policy",
+    "department": "People Operations",
+    "access_level": "general",
+    "version": "2026.1",
+    "status": "current",
+    "effective_date": "2026-01-01",
+    "file_format": "md"
+  },
+  {
+    "filename": "performance_improvement_plan_guide.md",
+    "title": "Performance Improvement Plan Guide for Managers",
+    "department": "People Operations",
+    "access_level": "manager_only",
+    "version": "2026.1",
+    "status": "current",
+    "effective_date": "2026-01-01",
+    "file_format": "md"
+  },
+  {
+    "filename": "remote_work_policy.md",
+    "title": "Remote and Hybrid Work Policy",
+    "department": "People Operations",
+    "access_level": "general",
+    "version": "2026.2",
+    "status": "current",
+    "effective_date": "2026-03-01",
+    "file_format": "md"
+  },
+  {
+    "filename": "time_off_policy.docx",
+    "title": "Time Off and Leave Policy",
+    "department": "People Operations",
+    "access_level": "general",
+    "version": "2026.1",
+    "status": "current",
+    "effective_date": "2026-01-01",
+    "file_format": "docx"
+  },
+  {
+    "filename": "workplace_investigation_procedure.pdf",
+    "title": "Workplace Investigation Procedure",
+    "department": "People Operations",
+    "access_level": "hr_only",
+    "version": "2026.1",
+    "status": "current",
+    "effective_date": "2026-01-01",
+    "file_format": "pdf"
+  }
+]

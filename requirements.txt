@@ -1,0 +1,24 @@
+# Web page
+streamlit>=1.50.0
+
+# Postgres: employees and chat history
+psycopg[binary]>=3.2
+
+# Elasticsearch: policy chunks and vectors (Capstone 2 swaps in opensearch-py)
+elasticsearch>=9.1,<10
+
+# Reading policy files
+pypdf>=5.0.0
+python-docx>=1.1.2
+
+# Splitting text into chunks
+langchain-text-splitters>=1.0.0
+
+# Embeddings, run locally. No API key.
+fastembed>=0.5
+
+# Claude, for writing answers
+anthropic>=1.5.0,<2
+
+python-dotenv>=1.0.0
+pytest>=8.0
