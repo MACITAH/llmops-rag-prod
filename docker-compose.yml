@@ -1,91 +1,65 @@
-# Four services. `docker compose up --build` starts them in this order:
+# The whole system on a laptop: PostgreSQL with pgvector, and the app.
 #
-#   postgres        employees, access rules, chat history
-#   elasticsearch   policy chunks and their vectors
-#   ingest          reads the policy files into Elasticsearch, then exits
-#   app             the Streamlit chat, on http://localhost:8501
+#   cp .env.example .env          # put your ANTHROPIC_API_KEY in it
+#   docker compose up -d --build  # ingestion runs once, then the page starts
+#   open http://localhost:8501
 #
-# The app waits until postgres and elasticsearch are healthy AND ingest has
-# finished successfully, so nobody chats against an empty index.
+# Two containers, not four. There is no separate vector database, and the page talks to the
+# Python directly: pgvector stores the chunks inside the same Postgres you already have.
+
+name: northwind-hr
 
 services:
+  # PostgreSQL with the pgvector extension compiled in.
   postgres:
-    image: postgres:17
+    image: pgvector/pgvector:pg17
     environment:
-      POSTGRES_USER: hr
-      POSTGRES_PASSWORD: hr
+      POSTGRES_USER: hr_app
+      POSTGRES_PASSWORD: local_development_only
       POSTGRES_DB: hr
     ports:
-      - "5432:5432"            # so you can psql in, and run tests from your machine
+      # exposed, so you can psql in and look at the chunks yourself
+      - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-      # Every .sql file in db/ runs once, in name order, on a brand-new database.
-      - ./db:/docker-entrypoint-initdb.d:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U hr -d hr"]
+      # The app must not start before Postgres is accepting connections
+      test: ["CMD-SHELL", "pg_isready -U hr_app -d hr"]
       interval: 3s
       timeout: 3s
       retries: 20
 
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:9.1.0
-    environment:
-      discovery.type: single-node
-      # Local development only: no passwords, no TLS. Never do this on a server.
-      xpack.security.enabled: "false"
-      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
-    ports:
-      - "9200:9200"
-    volumes:
-      - esdata:/usr/share/elasticsearch/data
-    healthcheck:
-      test: ["CMD-SHELL", "curl -fs http://localhost:9200/_cluster/health || exit 1"]
-      interval: 5s
-      timeout: 5s
-      retries: 30
-      start_period: 20s
-
+  # Reads the documents, embeds them, fills the table. Runs once and exits.
   ingest:
     build: .
-    image: northwind-hr-assistant:local
-    command: ["python", "-m", "app.ingest"]
-    env_file:
-      - .env                   # lets you test the assistant from this container too
-    environment:
-      DATABASE_URL: postgresql://hr:hr@postgres:5432/hr
-      SEARCH_URL: http://elasticsearch:9200
+    environment: &app-env
+      DATABASE_URL: postgresql://hr_app:local_development_only@postgres:5432/hr
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      FASTEMBED_CACHE_PATH: /opt/models
     volumes:
-      - ./app:/app/app
       - ./data:/app/data
-    depends_on:
-      elasticsearch:
-        condition: service_healthy
-    restart: "no"
-
-  app:
-    build: .
-    image: northwind-hr-assistant:local
-    ports:
-      - "8501:8501"
-    env_file:
-      - .env                   # ANTHROPIC_API_KEY
-    environment:
-      DATABASE_URL: postgresql://hr:hr@postgres:5432/hr
-      SEARCH_URL: http://elasticsearch:9200
-    volumes:
-      # Mounted, so editing code or documents needs no rebuild.
-      # Streamlit reloads the page when a file in app/ changes.
+      # edit the code and rerun without rebuilding the image
       - ./app:/app/app
-      - ./data:/app/data
-      - ./tests:/app/tests
     depends_on:
       postgres:
         condition: service_healthy
-      elasticsearch:
-        condition: service_healthy
+    command: ["python", "-m", "app.ingest"]
+
+  # The chat page. Streamlit reloads it whenever a file in app/ changes.
+  app:
+    build: .
+    environment: *app-env
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./data:/app/data
+      - ./app:/app/app
+    depends_on:
       ingest:
         condition: service_completed_successfully
+    command: ["streamlit", "run", "app/main.py",
+              "--server.address=0.0.0.0", "--server.port=8501"]
+
 
 volumes:
   pgdata:
-  esdata:

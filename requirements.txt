@@ -1,24 +1,17 @@
-# Web page
-streamlit>=1.50.0
+# What the app needs to run.
 
-# Postgres: employees and chat history
+# Claude, with an API key
+anthropic>=1.5.0,<2
+
+# PostgreSQL with pgvector: the vector store
 psycopg[binary]>=3.2
 
-# Elasticsearch: policy chunks and vectors (Capstone 2 swaps in opensearch-py)
-elasticsearch>=9.1,<10
-
-# Reading policy files
+# Reading the documents
 pypdf>=5.0.0
 python-docx>=1.1.2
 
 # Splitting text into chunks
 langchain-text-splitters>=1.0.0
 
-# Embeddings, run locally. No API key.
-fastembed>=0.5
-
-# Claude, for writing answers
-anthropic>=1.5.0,<2
-
-python-dotenv>=1.0.0
-pytest>=8.0
+# The web page
+streamlit>=1.50.0

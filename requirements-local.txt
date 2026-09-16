@@ -1,0 +1,6 @@
+# Development only.
+
+# The embedding model, downloaded into the image at build time
+fastembed>=0.4
+
+pytest>=8.0
