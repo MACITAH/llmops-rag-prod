@@ -1,8 +1,11 @@
-# Lab: build a RAG assistant over real documents
+# Northwind HR policy assistant
 
-Two days, four hours each. You start with documents, a Dockerfile and an empty `app/`
-folder, and you finish with a working assistant that answers policy questions with citations
-and refuses to invent anything.
+A two-day lab: build a RAG assistant over a real document library, from reading the files to
+proving the answers are right.
+
+You start with 37 HR policy documents, a Dockerfile and an empty `app/` folder. You finish
+with an assistant that answers policy questions with citations and refuses to invent
+anything. Four hours each day.
 
 There is no front end to build and no API to write. The page is Streamlit, which means it is
 Python calling your own functions, in the same container as everything else.
