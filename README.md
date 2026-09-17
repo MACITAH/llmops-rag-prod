@@ -57,7 +57,7 @@ number it has no way of knowing. A cut-off does not catch this. It takes a rule 
 and its own test cases.
 
 **4. An answer you cannot check is not much use.** Every answer names the document, section
-and version it came from, and the numbers in the text have to match the sources listed
+and version it came from. The numbers in the text have to match the sources listed
 underneath.
 
 ## What is in the repository
@@ -85,6 +85,26 @@ requirements.txt      the libraries
 | `conversations.py` | Store chats in Postgres so a refresh does not lose them |
 | `main.py` | The Streamlit page: a chat box, the answers, the sources |
 | `evaluate.py` | Run the test questions and measure the relevance cut-off |
+
+## Getting a copy
+
+Import this into your own GitHub account rather than cloning it. You then own the
+copy: you can commit to it, push to it, and keep it afterwards.
+
+1. Sign in to GitHub and open **https://github.com/new/import**
+2. **Your old repository's clone URL**:
+   `https://github.com/utrains/llmops-rag-prod`
+3. **Repository name**: `llmops-rag-prod`
+4. Public or private, your choice
+5. **Begin import**
+
+Import copies the files and the history into a repository of your own. It is not
+a fork, so nothing links back here and nothing you push comes this way.
+
+```bash
+git clone https://github.com/YOUR-USERNAME/llmops-rag-prod.git
+cd llmops-rag-prod
+```
 
 ## Running it
 
