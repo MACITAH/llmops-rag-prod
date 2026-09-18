@@ -1,6 +1,6 @@
 import streamlit as st
 from app import assistant, config, conversations, search_index
-st.set_page_config(page_title="Northwind HR Assistant", page_icon="📄")
+st.set_page_config(page_title="MacitahAI", page_icon="📄")
 # st.session_state only survives as long as this browser session, so the same turns are
 # written to Postgres as they happen. chat_id is the row they belong to, and is None until
 # the first question starts a conversation.
@@ -85,7 +85,7 @@ def sidebar():
             st.session_state.chat_id = None
             st.session_state.messages = []
             st.rerun()
-st.title("Northwind HR Assistant")
+st.title("MacitahAI")
  
 # An assistant that answers "I could not find anything" to every question usually has an
 # empty index rather than a broken model, so say that plainly rather than leaving somebody to
